@@ -15,6 +15,12 @@
         android:theme="@style/Theme.Plantio"
         tools:targetApi="31">
         <activity
+            android:name=".LogInActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SingUpActivity"
+            android:exported="false"/>
+        <activity
             android:name=".SearchResults"
             android:exported="false" />
         <activity
