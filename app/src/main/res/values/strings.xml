@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Plantio</string>
+    <string name="searchButtonText">Find plants!</string>
+    <string name="instructions">Adjust the lighting in your space</string>
+    <string name="temperature">Set the usual lowest and highest temperature</string>
+    <string name="lowtemperature">Low</string>
+    <string name="hightemperature">High</string>
+</resources>

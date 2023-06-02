@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "103145697197",
+    "firebase_url": "https://okoko1-default-rtdb.firebaseio.com",
+    "project_id": "okoko1",
+    "storage_bucket": "okoko1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103145697197:android:9bcaf697076bf1ca26fb24",
+        "android_client_info": {
+          "package_name": "com.example.plantio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103145697197-dbfto5rppc1nlua7vfd67rj4rj4h32q6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5uVI24xky-zrF6jRgg3NXpOq0UKZcaQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103145697197-dbfto5rppc1nlua7vfd67rj4rj4h32q6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103145697197:android:14d8ead4d06eddc126fb24",
+        "android_client_info": {
+          "package_name": "com.example.testing23"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103145697197-dbfto5rppc1nlua7vfd67rj4rj4h32q6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5uVI24xky-zrF6jRgg3NXpOq0UKZcaQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103145697197-dbfto5rppc1nlua7vfd67rj4rj4h32q6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
