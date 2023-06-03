@@ -14,5 +14,4 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class Notifications extends FirebaseMessagingService {
 
-  }
 }
