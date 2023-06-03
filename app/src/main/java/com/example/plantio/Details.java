@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseUser;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -28,7 +29,7 @@ public class Details extends AppCompatActivity {
         lowtemp = (TextView)findViewById(R.id.lowtemptextView);
         hightemp = (TextView)findViewById(R.id.hightemptextView);
         image = (CircleImageView)findViewById(R.id.img1);
-
+        FirebaseUser currentUser = MainActivity.mFirebaseAuth.getCurrentUser();
         name.setText(plant.getName());
         fulldescription.setText(plant.getFull_description());
         light.setText(plant.getLight());
@@ -64,10 +65,16 @@ public class Details extends AppCompatActivity {
                 return true;
             }
             else if(item.getItemId()==R.id.bottom_account) {
-                startActivity(new Intent(getApplicationContext(), AccountActivity.class));
-                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
-                finish();
-                return true;
+                if(currentUser != null){
+                    startActivity(new Intent(getApplicationContext(), AccountActivity.class));
+                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                    finish();
+                }
+                else{
+                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                    finish();
+                }
             }
             return false;
         });

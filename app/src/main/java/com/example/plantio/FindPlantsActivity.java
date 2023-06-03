@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class FindPlantsActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class FindPlantsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_find_plants);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);
-
+        FirebaseUser currentUser = MainActivity.mFirebaseAuth.getCurrentUser();
         bottomNavigationView.setOnItemSelectedListener(item->{
             if(item.getItemId()==R.id.bottom_home){
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -54,9 +55,16 @@ public class FindPlantsActivity extends AppCompatActivity {
                 return true;
             }
             else if(item.getItemId()==R.id.bottom_account) {
-                startActivity(new Intent(getApplicationContext(), AccountActivity.class));
-                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
-                finish();
+                if(currentUser != null){
+                    startActivity(new Intent(getApplicationContext(), AccountActivity.class));
+                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                    finish();
+                }
+                else{
+                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                    finish();
+                }
                 return true;
             }
             return false;
@@ -81,7 +89,6 @@ public class FindPlantsActivity extends AppCompatActivity {
         searchButton.setText(getString(R.string.searchButtonText));
         lightBar.setProgress(100);
         lightText.setText("100%");
-
         lightBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

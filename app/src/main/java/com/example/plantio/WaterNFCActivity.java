@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseUser;
 
 public class WaterNFCActivity extends AppCompatActivity {
 
@@ -13,7 +14,7 @@ public class WaterNFCActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_water_nfcactivity);
-
+        FirebaseUser currentUser = MainActivity.mFirebaseAuth.getCurrentUser();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_water);
 
@@ -34,10 +35,16 @@ public class WaterNFCActivity extends AppCompatActivity {
                 return true;
             }
             else if(item.getItemId()==R.id.bottom_account) {
-                startActivity(new Intent(getApplicationContext(), AccountActivity.class));
-                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
-                finish();
-                return true;
+                if(currentUser != null){
+                    startActivity(new Intent(getApplicationContext(), AccountActivity.class));
+                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                    finish();
+                }
+                else{
+                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                    finish();
+                }
             }
             return false;
         });

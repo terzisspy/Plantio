@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,7 +55,7 @@ public class SearchResults extends AppCompatActivity {
 
         db = FirebaseDatabase.getInstance().getReference("Plant");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        FirebaseUser currentUser = MainActivity.mFirebaseAuth.getCurrentUser();
         plants = new ArrayList<>();
         searchAdapter = new SearchAdapter(this,plants);
         recyclerView.setAdapter(searchAdapter);
@@ -114,10 +115,16 @@ public class SearchResults extends AppCompatActivity {
                 return true;
             }
             else if(item.getItemId()==R.id.bottom_account) {
-                startActivity(new Intent(getApplicationContext(), AccountActivity.class));
-                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
-                finish();
-                return true;
+                if(currentUser != null){
+                    startActivity(new Intent(getApplicationContext(), AccountActivity.class));
+                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                    finish();
+                }
+                else{
+                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                    finish();
+                }
             }
             return false;
         });
