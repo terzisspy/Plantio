@@ -1,10 +1,19 @@
 package com.example.plantio;
 
+import android.icu.text.SimpleDateFormat;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Plant implements Parcelable {
     public String name;
@@ -15,8 +24,14 @@ public class Plant implements Parcelable {
     public Double low_temperature;
 
     public String image;
+    public int frequency;
 
     public Plant(){
+    }
+
+    public Plant(String name,Object date){
+        this.name = name;
+        this.short_description = date.toString();
     }
 
     public Plant(String name,String light,String short_description,String full_description,Double high_temperature,Double low_temperature, String image){
@@ -97,6 +112,42 @@ public class Plant implements Parcelable {
         this.light=data[5];
         this.image=data[6];
     }
+
+    public int daysInBetween(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            // Parse the given date string to Date object
+            Date givenDate = sdf.parse(short_description);
+
+            // Get today's date
+            Calendar calendarToday = Calendar.getInstance();
+            calendarToday.set(Calendar.HOUR_OF_DAY, 0);
+            calendarToday.set(Calendar.MINUTE, 0);
+            calendarToday.set(Calendar.SECOND, 0);
+            calendarToday.set(Calendar.MILLISECOND, 0);
+            Date today = calendarToday.getTime();
+
+            // Calculate the number of days between the given date and today's date
+            long diffInMillis = today.getTime()-givenDate.getTime();
+            long daysBetween = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+
+            // Return the number of days as an integer
+            return (int) daysBetween;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            // Handle parsing error
+        }
+
+        return -1;
+    }
+
+    @Override
+    public String toString(){
+        String plantContext;
+        return plantContext=this.name+" "+this.short_description+" "+this.full_description+" "+this.low_temperature+" "+this.high_temperature+" "+this.light;
+    }
+
     @Override
     public int describeContents() {
         return 0;

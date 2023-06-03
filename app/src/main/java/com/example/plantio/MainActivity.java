@@ -23,7 +23,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    MyAdapter myAdapter;
 
     DatabaseReference db;
     ArrayList<Plant> plants;

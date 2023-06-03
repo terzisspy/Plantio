@@ -8,71 +8,36 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editText"
+        android:id="@+id/nameText"
         android:layout_width="251dp"
         android:layout_height="45dp"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="30dp"
         android:layout_marginTop="66dp"
         android:layout_marginEnd="130dp"
-        android:hint="Write the date"
+        android:hint="Name of the plant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="parent"/>
+
 
     <Button
-        android:id="@+id/readbutton"
-        android:layout_width="252dp"
-        android:layout_height="38dp"
-        android:layout_below="@+id/writebutton"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="21dp"
-        android:text="When was it watered?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/writebutton" />
-
-    <Button
-        android:id="@+id/writebutton"
+        android:id="@+id/add_button"
         android:layout_width="252dp"
         android:layout_height="37dp"
-        android:layout_below="@+id/editTextDate"
+        android:layout_below="@+id/dateText"
         android:layout_marginStart="30dp"
         android:layout_marginTop="11dp"
-        android:text="I watered it!"
+        android:text="Add Plant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/nameText" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="16dp"
-        android:text="Instructions"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.077"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.047" />
 
-    <TextView
-        android:id="@+id/nfctextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="318dp"
-        android:text="NFC Content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.102"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/readbutton" />
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -92,15 +57,16 @@
         app:menu="@menu/botttom_navig" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/dateText"
         android:layout_width="254dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/nameText"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="29dp"
         android:layout_marginTop="13dp"
         android:layout_marginEnd="128dp"
         android:ems="10"
+        android:hint="Add Date dd/mm.yyyy"
         android:inputType="date" />
 </RelativeLayout>

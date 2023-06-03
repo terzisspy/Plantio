@@ -16,76 +16,68 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MyAdapter extends FirebaseRecyclerAdapter<Plant,MyAdapter.myViewHolder> {
-    /**
-     * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
-     * {@link FirebaseRecyclerOptions} for configuration options.
-     *
-     * @param options
-     */
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+    private Context context;
+    ArrayList<Plant> plants;
+    String light,highTemp,lowTemp;
 
-    public MyAdapter(@NonNull FirebaseRecyclerOptions<Plant> options) {
-        super(options);
-    }
-
-    Plant plantdata = new Plant();
-
-    @Override
-    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Plant plant) {
-        //if(plant.getLow_temperature()<=10&&plant.getHigh_temperature()<=20) {
-            holder.name.setText(plant.getName());
-            holder.description.setText(plant.getShort_description());
-            plantdata = plant;
-
-            Glide.with(holder.img.getContext())
-                    .load(plant.getImage())
-                    .placeholder(com.firebase.ui.database.R.drawable.common_google_signin_btn_icon_dark)
-                    .circleCrop()
-                    .error(com.google.firebase.database.R.drawable.common_google_signin_btn_icon_dark)
-                    .into(holder.img);
-        //}
+    public MyAdapter(Context context, ArrayList<Plant> plants) {
+        this.context=context;
+        this.plants=plants;
     }
 
     @NonNull
     @Override
-    public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item,parent,false);
-
-        return new myViewHolder(view);
+    public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.acccard_item,parent,false);
+        return new MyAdapter.MyViewHolder(view);
     }
-    private Context context;
+
+    @Override
+    public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position) {
+        Plant plant=plants.get(position);
+        holder.name.setText(plant.getName());
+        holder.date.setText(plant.getShort_description());
+        holder.again.setText("You should water it again in: "+plant.daysInBetween()+" days.");
+        System.out.println(plant.daysInBetween());
+
+        Glide.with(holder.img.getContext())
+                .load(R.drawable.flower)
+                .placeholder(com.firebase.ui.database.R.drawable.common_google_signin_btn_icon_dark)
+                .circleCrop()
+                .error(R.drawable.flower)
+                .into(holder.img);
+    }
+
+    @Override
+    public int getItemCount(){
+        return plants.size();
+    }
 
 
 
-    class myViewHolder extends RecyclerView.ViewHolder{
+
+    class MyViewHolder extends RecyclerView.ViewHolder{
         CircleImageView img;
-        TextView name,description;
+        TextView name,date,again;
         Button more;
 
-        public myViewHolder(@NonNull View itemView){
+        public MyViewHolder(@NonNull View itemView){
             super(itemView);
             context = itemView.getContext();
             img = (CircleImageView)itemView.findViewById(R.id.img1);
             name = (TextView)itemView.findViewById(R.id.nametext);
-            description = (TextView)itemView.findViewById(R.id.shortdescriptiontext);
-            more = (Button)itemView.findViewById(R.id.morebutton);
-            more.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
+            date = (TextView)itemView.findViewById(R.id.dateWater);
+            again = (TextView)itemView.findViewById(R.id.shouldbeWatered);
 
-                    openDetailsActivity();
-                }
-            });
-
-        }
-
-        public void openDetailsActivity(){
-            Intent intent = new Intent(context,Details.class);
-            intent.putExtra("planttag",plantdata);
-            context.startActivity(intent);
         }
 
     }

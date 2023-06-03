@@ -16,6 +16,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -23,6 +29,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText signupMail,signupPassword;
     private Button signupButton;
     private TextView loginRedirectTextView;
+    private DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +55,12 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task){
                             if (task.isSuccessful()){
+                                String userId = auth.getCurrentUser().getUid();
+                                Map<String,Object> newUser = new HashMap<>();
+                                newUser.put("email",userid);
+                                newUser.put("password",password);
+                                newUser.put("plant",new HashMap<>());
+                                usersRef.child(userId).setValue(newUser);
                                 Toast.makeText(SignUpActivity.this, "Sing Up Successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
                             }else{

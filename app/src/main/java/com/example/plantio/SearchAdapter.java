@@ -49,7 +49,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
                     .load(plant.getImage())
                     .placeholder(com.firebase.ui.database.R.drawable.common_google_signin_btn_icon_dark)
                     .circleCrop()
-                    .error(com.google.firebase.database.R.drawable.common_google_signin_btn_icon_dark)
+                    .error(R.drawable.flower)
                     .into(holder.img);
     }
 
