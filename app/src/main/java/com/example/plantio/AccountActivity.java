@@ -64,6 +64,9 @@ public class AccountActivity extends AppCompatActivity {
                 return true;
             }
             else if(item.getItemId()==R.id.bottom_account) {
+                if(MyAdapter.notifsent>0){
+                    MyAdapter.notifsent=1;
+                }
                 return true;
             }
             return false;
@@ -95,7 +98,11 @@ public class AccountActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Plant plant = dataSnapshot.getValue(Plant.class);
-                    plant.setShort_description(dataSnapshot.child("lastWatered").getValue().toString());
+                    String dateAndFreq = dataSnapshot.child("lastWatered").getValue().toString();
+                    String [] splitDates = dateAndFreq.split(",");
+                    plant.setShort_description(splitDates[0]);
+                    plant.setFrequency(Integer.parseInt(splitDates[1]));
+                    plant.setImage(splitDates[2]);
                     System.out.println(dataSnapshot.toString());
                     System.out.println(plant.toString());
                     plants.add(plant);

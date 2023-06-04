@@ -31,6 +31,7 @@ android {
 
 dependencies {
 
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -44,6 +45,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:21.1.0'
     implementation 'com.google.firebase:firebase-messaging:23.1.0'
     implementation 'com.google.firebase:firebase-messaging-ktx:23.1.2'
+    implementation 'com.github.isradeleon:Notify-Android:1.0.5'
 
 
     testImplementation 'junit:junit:4.13.2'

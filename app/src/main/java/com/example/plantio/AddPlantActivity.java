@@ -61,6 +61,9 @@ public class AddPlantActivity extends AppCompatActivity {
                 return true;
             }
             else if(item.getItemId()==R.id.bottom_account) {
+                if(MyAdapter.notifsent>0){
+                    MyAdapter.notifsent=1;
+                }
                 if(currentUser != null){
                     startActivity(new Intent(getApplicationContext(), AccountActivity.class));
                     overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
@@ -78,12 +81,24 @@ public class AddPlantActivity extends AppCompatActivity {
         addPlant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int frequency=7;
+                String image=new String();
                 String plantName =  nameText.getText().toString();
                 String date = dateText.getText().toString();
+                for(Plant plant: MainActivity.plants){
+                    if(plant.getName().equals(plantName)){
+                        frequency=plant.getFrequency();
+                        image=plant.getImage();
+                    }
+                }
+
+                if(image==null){
+                    image = "https://drive.google.com/file/d/1YsvRA7ALpVDTEfwYzILl-LPdx9EV1RNd/view?usp=sharing";
+                }
 
                 Map<String, Object> plant = new HashMap<>();
                 plant.put("name",plantName);
-                plant.put("lastWatered",date);
+                plant.put("lastWatered",date+","+frequency+","+image);
 
                 userRef.child("plants").push().setValue(plant);
             }

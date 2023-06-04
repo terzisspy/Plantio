@@ -35,6 +35,9 @@ public class WaterNFCActivity extends AppCompatActivity {
                 return true;
             }
             else if(item.getItemId()==R.id.bottom_account) {
+                if(MyAdapter.notifsent>0){
+                    MyAdapter.notifsent=1;
+                }
                 if(currentUser != null){
                     startActivity(new Intent(getApplicationContext(), AccountActivity.class));
                     overridePendingTransition(R.anim.slide_right, R.anim.slide_left);

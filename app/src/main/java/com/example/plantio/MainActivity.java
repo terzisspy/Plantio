@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.application.isradeleon.notify.Notify;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
@@ -25,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     DatabaseReference db;
-    ArrayList<Plant> plants;
+    public static ArrayList<Plant> plants;
 
     SearchAdapter searchAdapter;
 
@@ -51,6 +54,21 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_home);
         currentUser = mFirebaseAuth.getCurrentUser();
+
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w("TAG", "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+
+                    // Get the token and do whatever you want with it
+                    String token = task.getResult();
+                    Log.d("TAG", "FCM registration token: " + token);
+                });
+
+
 
         db = FirebaseDatabase.getInstance().getReference("Plant");
         FirebaseUser currentUser = MainActivity.mFirebaseAuth.getCurrentUser();
@@ -93,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
                 else if(item.getItemId()==R.id.bottom_account) {
+                    if(MyAdapter.notifsent>0){
+                        MyAdapter.notifsent=1;
+                    }
                     if(currentUser != null){
                         startActivity(new Intent(getApplicationContext(), AccountActivity.class));
                         overridePendingTransition(R.anim.slide_right, R.anim.slide_left);

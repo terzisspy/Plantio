@@ -24,7 +24,7 @@ public class Plant implements Parcelable {
     public Double low_temperature;
 
     public String image;
-    public int frequency;
+    int frequency;
 
     public Plant(){
     }
@@ -34,7 +34,7 @@ public class Plant implements Parcelable {
         this.short_description = date.toString();
     }
 
-    public Plant(String name,String light,String short_description,String full_description,Double high_temperature,Double low_temperature, String image){
+    public Plant(String name,String light,String short_description,String full_description,Double high_temperature,Double low_temperature, String image,int frequency){
         this.full_description = full_description;
         this.short_description = short_description;
         this.name = name;
@@ -42,6 +42,7 @@ public class Plant implements Parcelable {
         this.high_temperature = high_temperature;
         this.low_temperature = low_temperature;
         this.image=image;
+        this.frequency = frequency;
     }
 
     public void setName(String name) {
@@ -66,6 +67,10 @@ public class Plant implements Parcelable {
 
     public void setLow_temperature(Double low_temperature) {
         this.low_temperature = low_temperature;
+    }
+
+    public void setFrequency(Integer frequency) {
+        this.frequency = frequency;
     }
 
     public void setImage(String image) {
@@ -100,9 +105,13 @@ public class Plant implements Parcelable {
         return image;
     }
 
+    public int getFrequency() {
+        return frequency;
+    }
+
 
     public Plant(Parcel in){
-        String[] data = new String[7];
+        String[] data = new String[8];
         in.readStringArray(data);
         this.name=data[0];
         this.short_description=data[1];
@@ -111,6 +120,7 @@ public class Plant implements Parcelable {
         this.high_temperature=Double.parseDouble(data[4]);
         this.light=data[5];
         this.image=data[6];
+        this.frequency=Integer.parseInt(data[7]);
     }
 
     public int daysInBetween(){
@@ -155,7 +165,7 @@ public class Plant implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeStringArray(new String[]{this.name,this.short_description, this.full_description, String.valueOf(this.low_temperature), String.valueOf(this.high_temperature), this.light, this.image});
+        dest.writeStringArray(new String[]{this.name,this.short_description, this.full_description, String.valueOf(this.low_temperature), String.valueOf(this.high_temperature), this.light, this.image, String.valueOf(this.frequency)});
     }
 
     public static final Parcelable.Creator<Plant> CREATOR=new Parcelable.Creator<Plant>(){
