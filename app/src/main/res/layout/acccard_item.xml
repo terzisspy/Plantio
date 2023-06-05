@@ -58,6 +58,29 @@
             android:textColor="#000000"
             android:textSize="20sp" />
 
+        <Button
+            android:id="@+id/removeButton"
+            android:layout_width="62dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shouldbeWatered"
+            android:layout_marginStart="-273dp"
+            android:layout_marginTop="1dp"
+            android:layout_toEndOf="@+id/dateWater"
+            app:cornerRadius="40dp"
+            app:icon="@drawable/baseline_remove_circle_24" />
+
+        <Button
+            android:id="@+id/waterButton"
+            android:layout_width="62dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shouldbeWatered"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="2dp"
+            android:layout_toEndOf="@+id/removeButton"
+            app:cornerRadius="40dp"
+            app:icon="@drawable/baseline_water_drop_24"
+            app:iconTint="#000000" />
+
 
     </RelativeLayout>
 

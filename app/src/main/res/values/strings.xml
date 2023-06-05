@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Plantio</string>
-    <string name="searchButtonText">Find plants!</string>
+    <string name="searchButtonText">Find plants</string>
+    <string name="detectButtonText">Identify plants</string>
     <string name="instructions">Adjust the lighting in your space</string>
     <string name="pastWater">You should have watered it: </string>
     <string name="ago"> days ago. </string>

@@ -21,11 +21,12 @@ public class Details extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         Plant plant =  getIntent().getParcelableExtra("planttag");
-        TextView name,fulldescription,light,lowtemp,hightemp;
+        TextView name,fulldescription,light,lowtemp,hightemp,frequency;
         CircleImageView image;
         name = (TextView)findViewById(R.id.nametext);
         fulldescription = (TextView)findViewById(R.id.shortdescriptiontext);
         light = (TextView)findViewById(R.id.lighttextView);
+        frequency = (TextView)findViewById(R.id.frequencyText);
         lowtemp = (TextView)findViewById(R.id.lowtemptextView);
         hightemp = (TextView)findViewById(R.id.hightemptextView);
         image = (CircleImageView)findViewById(R.id.img1);
@@ -35,6 +36,7 @@ public class Details extends AppCompatActivity {
         light.setText(plant.getLight());
         lowtemp.setText(plant.getLow_temperature()+" °C");
         hightemp.setText(plant.getHigh_temperature()+" °C");
+        frequency.setText(plant.getFrequency()+" days.");
 
         Glide.with(image.getContext())
                 .load(plant.getImage())

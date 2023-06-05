@@ -103,8 +103,8 @@ public class AccountActivity extends AppCompatActivity {
                     plant.setShort_description(splitDates[0]);
                     plant.setFrequency(Integer.parseInt(splitDates[1]));
                     plant.setImage(splitDates[2]);
-                    System.out.println(dataSnapshot.toString());
-                    System.out.println(plant.toString());
+                    //System.out.println(dataSnapshot.toString());
+                    //System.out.println(plant.toString());
                     plants.add(plant);
                 }
                 if(plants.size()>0){

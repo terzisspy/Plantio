@@ -28,7 +28,7 @@ public class FindPlantsActivity extends AppCompatActivity {
     private ImageView darknessimageView;
 
     Context context;
-    private Button searchButton;
+    private Button searchButton,detectButton;
 
 
     @Override
@@ -90,6 +90,8 @@ public class FindPlantsActivity extends AppCompatActivity {
         darknessimageView.setImageAlpha(0);
         searchButton = (Button) findViewById(R.id.searchButton);
         searchButton.setText(getString(R.string.searchButtonText));
+        detectButton = (Button) findViewById(R.id.detectButton);
+        detectButton.setText(getString(R.string.detectButtonText));
         lightBar.setProgress(100);
         lightText.setText("100%");
         lightBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -149,6 +151,14 @@ public class FindPlantsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        detectButton.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetectPlants.class);
+                startActivity(intent);
+            }
+        }));
 
     }
 }

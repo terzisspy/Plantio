@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +26,7 @@ public class AddPlantActivity extends AppCompatActivity {
     String name;
     Date date;
     FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,10 @@ public class AddPlantActivity extends AppCompatActivity {
                 plant.put("lastWatered",date+","+frequency+","+image);
 
                 userRef.child("plants").push().setValue(plant);
+                startActivity(new Intent(getApplicationContext(), AccountActivity.class));
+                int duration = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(getApplicationContext(), plantName+ " successfully added.", duration);
+                toast.show();
             }
         });
     }

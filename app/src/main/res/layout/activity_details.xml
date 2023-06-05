@@ -16,13 +16,13 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="369dp"
+            android:layout_height="44dp"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="36dp"
+            android:layout_marginBottom="33dp"
             android:background="@drawable/bottom_bg"
             android:elevation="2dp"
             app:itemIconSize="30dp"
@@ -110,6 +110,16 @@
             app:srcCompat="@drawable/bulb" />
 
         <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="31dp"
+            android:layout_height="39dp"
+            android:layout_below="@+id/shortdescriptiontext"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="-69dp"
+            android:layout_toStartOf="@+id/lighttextView"
+            app:srcCompat="@drawable/baseline_access_time_24" />
+
+        <ImageView
             android:id="@+id/imageView2"
             android:layout_width="27dp"
             android:layout_height="26dp"
@@ -128,6 +138,16 @@
             android:layout_marginEnd="1dp"
             android:layout_toStartOf="@+id/lowtemptextView"
             app:srcCompat="@drawable/snowflake" />
+
+        <TextView
+            android:id="@+id/frequencyText"
+            android:layout_width="54dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shortdescriptiontext"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="6dp"
+            android:layout_toStartOf="@+id/imageView3"
+            android:text="0" />
 
 
     </RelativeLayout>
