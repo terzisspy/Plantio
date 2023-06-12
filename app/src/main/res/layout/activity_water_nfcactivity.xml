@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editText"
+        android:id="@+id/nameEditText"
         android:layout_width="251dp"
         android:layout_height="45dp"
         android:layout_alignParentStart="true"
@@ -16,7 +16,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="66dp"
         android:layout_marginEnd="130dp"
-        android:hint="Write the date"
+        android:hint="Write the name of Plant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="318dp"
-        android:text="NFC Content"
+        android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.102"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,12 +95,13 @@
         android:id="@+id/editTextDate"
         android:layout_width="254dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/nameEditText"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="29dp"
         android:layout_marginTop="13dp"
         android:layout_marginEnd="128dp"
         android:ems="10"
+        android:hint="Date (dd/MM/yyyy)"
         android:inputType="date" />
 </RelativeLayout>

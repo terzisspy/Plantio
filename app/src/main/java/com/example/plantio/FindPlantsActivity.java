@@ -49,10 +49,21 @@ public class FindPlantsActivity extends AppCompatActivity {
                 return true;
             }
             else if(item.getItemId()==R.id.bottom_water){
-                startActivity(new Intent(getApplicationContext(), WaterNFCActivity.class));
-                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
-                finish();
-                return true;
+                if(currentUser != null){
+                    startActivity(new Intent(getApplicationContext(), WaterNFCActivity.class));
+                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                    finish();
+                    return true;
+                }
+                else {
+                    CharSequence message = "You should LogIn to use that feature";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(getApplicationContext(), message, duration);
+                    toast.show();
+                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                    finish();
+                }
             }
             else if(item.getItemId()==R.id.bottom_account) {
                 if(MyAdapter.notifsent>0){
