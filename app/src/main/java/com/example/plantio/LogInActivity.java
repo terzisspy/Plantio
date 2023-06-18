@@ -20,6 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.regex.Pattern;
 
+/**
+ * The LogInActivity class is used so user can login
+ */
 public class LogInActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
@@ -28,15 +31,18 @@ public class LogInActivity extends AppCompatActivity {
     private Button loginButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Initialize UI components
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
-
         auth = FirebaseAuth.getInstance();
         loginMail = (EditText) findViewById(R.id.login_mail);
         loginPassword = (EditText) findViewById(R.id.login_password);
         loginButton = (Button) findViewById(R.id.login_button);
         signupRedirectTextView = (TextView) findViewById(R.id.signupRedirectText);
 
+        // Set up click listener for loginButton
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,12 +81,17 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
+        // Set up click listener so the user gets redirected
+
         signupRedirectTextView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 startActivity(new Intent(LogInActivity.this,SignUpActivity.class));
             }
         });
+
+
+        // Set up bottom navigation view
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_account);
@@ -100,10 +111,13 @@ public class LogInActivity extends AppCompatActivity {
                 return true;
             }
             else if(item.getItemId()==R.id.bottom_water){
-                startActivity(new Intent(getApplicationContext(), WaterNFCActivity.class));
-                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
-                finish();
-                return true;
+                    CharSequence message = "You should LogIn to use that feature";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(getApplicationContext(), message, duration);
+                    toast.show();
+                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                    finish();
             }
             else if(item.getItemId()==R.id.bottom_account) {
                 return true;

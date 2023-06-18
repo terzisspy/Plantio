@@ -14,12 +14,17 @@ import com.google.firebase.auth.FirebaseUser;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The Details class is used to show more details for each plant in a card.
+ */
 public class Details extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Initialize UI components
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-
         Plant plant =  getIntent().getParcelableExtra("planttag");
         TextView name,fulldescription,light,lowtemp,hightemp,frequency;
         CircleImageView image;
@@ -31,6 +36,9 @@ public class Details extends AppCompatActivity {
         hightemp = (TextView)findViewById(R.id.hightemptextView);
         image = (CircleImageView)findViewById(R.id.img1);
         FirebaseUser currentUser = MainActivity.mFirebaseAuth.getCurrentUser();
+
+        // Setting the texts based on the object
+
         name.setText(plant.getName());
         fulldescription.setText(plant.getFull_description());
         light.setText(plant.getLight());
@@ -44,6 +52,8 @@ public class Details extends AppCompatActivity {
                 .circleCrop()
                 .error(com.google.firebase.database.R.drawable.common_google_signin_btn_icon_dark)
                 .into(image);
+
+        // Set up bottom navigation view
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 

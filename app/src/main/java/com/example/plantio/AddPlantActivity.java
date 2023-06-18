@@ -20,6 +20,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The AddPlantActivity class represents the activity used to add new plants on the user's database.
+ */
 public class AddPlantActivity extends AppCompatActivity {
     Button addPlant;
     EditText nameText,dateText;
@@ -30,6 +33,9 @@ public class AddPlantActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Initialize UI components
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_plant);
         FirebaseUser currentUser = MainActivity.mFirebaseAuth.getCurrentUser();
@@ -41,7 +47,8 @@ public class AddPlantActivity extends AppCompatActivity {
         String userId = mAuth.getCurrentUser().getUid();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
-        //bottomNavigationView.setSelectedItemId(R.id.bottom_water);
+
+        // Set up bottom navigation view
 
         bottomNavigationView.setOnItemSelectedListener(item->{
             if(item.getItemId()==R.id.bottom_home){
@@ -91,13 +98,17 @@ public class AddPlantActivity extends AppCompatActivity {
             return false;
         });
 
+
+        // Set up event listeners
         addPlant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Set default frequency and image variables
                 int frequency=7;
                 String image=new String();
                 String plantName =  nameText.getText().toString();
                 String date = dateText.getText().toString();
+                // Retrieve plant information from MainActivity.plants
                 for(Plant plant: MainActivity.plants){
                     if(plant.getName().equals(plantName)){
                         frequency=plant.getFrequency();
@@ -105,11 +116,14 @@ public class AddPlantActivity extends AppCompatActivity {
                     }
                 }
 
+                // If image is not found, set default image URL
                 if(image==null){
                     image = "https://drive.google.com/file/d/1YsvRA7ALpVDTEfwYzILl-LPdx9EV1RNd/view?usp=sharing";
                 }
 
+                // Create a map for the new plant entry
                 Map<String, Object> plant = new HashMap<>();
+                // Push the plant entry to the user's "plants" node in Firebase
                 plant.put("name",plantName);
                 plant.put("lastWatered",date+","+frequency+","+image);
 

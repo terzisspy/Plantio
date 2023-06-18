@@ -58,6 +58,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @NonNull
     @Override
+    // Inflate the item layout for the RecyclerView
     public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.acccard_item,parent,false);
         return new MyAdapter.MyViewHolder(view);
@@ -68,11 +69,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         Plant plant=plants.get(position);
         holder.name.setText(plant.getName());
         holder.date.setText(plant.getShort_description());
+
+        // Calculate when to water the plant and display a warning message
+
         int whenToWater = plant.getFrequency()-plant.daysInBetween();
         String waterWarning = new String();
         if(whenToWater==-1){
             waterWarning = "You should have watered it yesterday";
             holder.again.setTypeface(null, Typeface.BOLD);
+            // Send a notification if not already sent
             if(notifsent!=1)
                 Notify.build(context)
                     .setTitle("You forgot to water your " + plant.getName())
@@ -85,6 +90,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         else if(whenToWater==0){
             waterWarning = "You should water it today";
             holder.again.setTypeface(null, Typeface.BOLD);
+            // Send a notification if not already sent
             if(notifsent!=1)
                 Notify.build(context)
                     .setTitle("Remember to water your " + plant.getName())
@@ -97,6 +103,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         else if(whenToWater==1){
             waterWarning = "You should water it tomorrow";
             holder.again.setTypeface(null, Typeface.BOLD);
+            // Send a notification if not already sent
             if(notifsent!=1)
                 Notify.build(context)
                     .setTitle("Remember to water your " + plant.getName())
@@ -140,6 +147,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         Button remove, water;
 
         public MyViewHolder(@NonNull View itemView) {
+
+            // Initialize UI Components
             super(itemView);
             context = itemView.getContext();
             img = (CircleImageView) itemView.findViewById(R.id.img1);
@@ -149,9 +158,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             remove = (Button) itemView.findViewById(R.id.removeButton);
             water = (Button) itemView.findViewById(R.id.waterButton);
 
+            // Remove button click listener
             remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // Delete the plant from the database
                     mFirebaseAuth = FirebaseAuth.getInstance();
                     String userId = mFirebaseAuth.getCurrentUser().getUid();
                     int position = getAdapterPosition();
@@ -193,6 +204,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
             });
 
+            // Water button click listener
             water.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -201,7 +213,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     int position = getAdapterPosition();
                     String nameToBeUpdated = plants.get(position).getName();
 
-                    //Updated data
+                    //Updated data with the calculation of current date
                     Calendar calendarToday = Calendar.getInstance();
                     calendarToday.set(Calendar.HOUR_OF_DAY, 0);
                     calendarToday.set(Calendar.MINUTE, 0);

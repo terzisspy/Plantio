@@ -23,6 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The SignUpActivity class is used so user can login
+ */
 public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
@@ -32,31 +35,36 @@ public class SignUpActivity extends AppCompatActivity {
     private DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Set UI components
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sing_up);
-
         auth = FirebaseAuth.getInstance();
         signupMail = (EditText) findViewById(R.id.signup_mail);
         signupPassword = (EditText) findViewById(R.id.signup_password);
         signupButton = (Button) findViewById(R.id.signup_button);
         loginRedirectTextView = (TextView) findViewById(R.id.loginRedirectText);
 
+        // Set click listener for the sign-up button
         signupButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 String userid = signupMail.getText().toString().trim();
                 String password = signupPassword.getText().toString().trim();
+                // Checking if the fields are filled
                 if (userid.isEmpty())
                     signupMail.setError("Mail field cannot be empty");
                 if (password.isEmpty())
                     signupPassword.setError("Mail field cannot be empty");
                 else{
+                    // Create user account using Firebase Authentication
                     auth.createUserWithEmailAndPassword(userid, password).addOnCompleteListener(new OnCompleteListener<AuthResult>(){
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task){
                             if (task.isSuccessful()){
                                 String userId = auth.getCurrentUser().getUid();
                                 Map<String,Object> newUser = new HashMap<>();
+                                // Store user information in Firebase Realtime Database
                                 newUser.put("email",userid);
                                 newUser.put("password",password);
                                 newUser.put("plant",new HashMap<>());
@@ -73,6 +81,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        // Set up click listener so the user gets redirected
         loginRedirectTextView.setOnClickListener(new View.OnClickListener(){
              @Override
              public void onClick(View view){
@@ -81,10 +90,9 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
+        // Set up bottom navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_account);
-
-
         bottomNavigationView.setOnItemSelectedListener(item->{
             if(item.getItemId()==R.id.bottom_home){
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -99,10 +107,13 @@ public class SignUpActivity extends AppCompatActivity {
                 return true;
             }
             else if(item.getItemId()==R.id.bottom_water){
-                startActivity(new Intent(getApplicationContext(), WaterNFCActivity.class));
+                CharSequence message = "You should SignUp to use that feature";
+                int duration = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(getApplicationContext(), message, duration);
+                toast.show();
+                startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
                 overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
                 finish();
-                return true;
             }
             else if(item.getItemId()==R.id.bottom_account) {
                 return true;

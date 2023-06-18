@@ -28,6 +28,10 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * The WaterNFCActivity class is used so user can add the watering date or search when a plant was lastly watered.
+ */
+
 public class WaterNFCActivity extends AppCompatActivity {
 
     TextView instructionText,content;
@@ -41,12 +45,12 @@ public class WaterNFCActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Set up UI components
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_water_nfcactivity);
         FirebaseUser currentUser = MainActivity.mFirebaseAuth.getCurrentUser();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_water);
-
         activateButton = (Button) findViewById(R.id.writebutton);
         readButton = (Button) findViewById(R.id.readbutton);
         instructionText = (TextView) findViewById(R.id.textView);
@@ -58,6 +62,7 @@ public class WaterNFCActivity extends AppCompatActivity {
 
         String userId = mFirebaseAuth.getCurrentUser().getUid();
 
+        // Set up bottom navigation bar
         bottomNavigationView.setOnItemSelectedListener(item->{
             if(item.getItemId()==R.id.bottom_home){
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -92,9 +97,11 @@ public class WaterNFCActivity extends AppCompatActivity {
             return false;
         });
 
+        // Set up click listeners
         activateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                // Checking if all the fields are filled
                 if (plantName.getText().toString().isEmpty() | date.getText().toString().isEmpty()){
                     CharSequence message = "You should fill both fields";
                     int duration = Toast.LENGTH_LONG;
@@ -102,6 +109,7 @@ public class WaterNFCActivity extends AppCompatActivity {
                     toast.show();
                 }
                 else{
+                    // Checking if the date given is valid
                     if(isValidDate(date.getText().toString())){
                         String name = plantName.getText().toString();
                         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -155,6 +163,7 @@ public class WaterNFCActivity extends AppCompatActivity {
 
                     }
                     else{
+                        // If date format is not valid
                         CharSequence message = "Enter a valid date dd/MM/yyyy";
                         int duration = Toast.LENGTH_LONG;
                         Toast toast = Toast.makeText(getApplicationContext(), message, duration);
@@ -176,6 +185,7 @@ public class WaterNFCActivity extends AppCompatActivity {
                 } else {
                     String name = plantName.getText().toString();
                     mFirebaseAuth = FirebaseAuth.getInstance();
+                    // Retrieving the date that the specific plant was watered
                     db = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("plants");
                     String userId = mFirebaseAuth.getCurrentUser().getUid();
                     Query plantQuery = db.orderByChild("name").equalTo(name);
@@ -200,6 +210,7 @@ public class WaterNFCActivity extends AppCompatActivity {
         });
     }
 
+    //Checking if the date given is valid to the required format
     public boolean isValidDate(String dateStr) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         sdf.setLenient(false); // Disable lenient parsing

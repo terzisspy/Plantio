@@ -27,18 +27,38 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     ArrayList<Plant> plants;
     String light,highTemp,lowTemp;
 
+    /**
+     * Constructor for the SearchAdapter class.
+     *
+     * @param context The context of the activity or fragment.
+     * @param plants  The list of plants to be displayed.
+     */
     public SearchAdapter(Context context, ArrayList<Plant> plants) {
         this.context=context;
         this.plants=plants;
     }
 
+    /**
+     * Called when RecyclerView needs a new ViewHolder of the given type to represent an item.
+     *
+     * @param parent   The ViewGroup into which the new View will be added after it is bound to an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new ViewHolder that holds a View of the given view type.
+     */
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflate the item layout for the RecyclerView
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item,parent,false);
         return new MyViewHolder(view);
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     *
+     * @param holder   The ViewHolder that should be updated to represent the contents of the item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Plant plant=plants.get(position);
@@ -65,7 +85,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         CircleImageView img;
         TextView name,description;
         Button more;
-
+        /**
+         * Constructor for the MyViewHolder class.
+         *
+         * @param itemView The item view containing the views to be held by the ViewHolder.
+         */
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
             context = itemView.getContext();
@@ -81,7 +105,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
             });
 
         }
-
+        // Opens the Details activity and passes the plant data to it.
         public void openDetailsActivity(){
             Intent intent = new Intent(context,Details.class);
             int position = getAdapterPosition();

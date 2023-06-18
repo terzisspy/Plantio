@@ -22,6 +22,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+/**
+ * The SearchResults class is used to display the results from user's search.
+ */
+
 public class SearchResults extends AppCompatActivity {
     private RecyclerView recyclerView;
     public Intent intent = getIntent();
@@ -46,13 +50,7 @@ public class SearchResults extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.searchResults);
 
-        /*FirebaseRecyclerOptions<Plant> options =
-                new FirebaseRecyclerOptions.Builder<Plant>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Plant").orderByChild("light").equalTo(lightText), Plant.class)
-                        .build();
-        myAdapter = new MyAdapter(options);
-        recyclerView.setAdapter(myAdapter);*/
-
+        // Retrieve plants matching search criteria
         db = FirebaseDatabase.getInstance().getReference("Plant");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         FirebaseUser currentUser = MainActivity.mFirebaseAuth.getCurrentUser();
@@ -60,17 +58,15 @@ public class SearchResults extends AppCompatActivity {
         searchAdapter = new SearchAdapter(this,plants);
         recyclerView.setAdapter(searchAdapter);
         context =this;
+
+        // Set up event listener
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Plant plant = dataSnapshot.getValue(Plant.class);
-                    //System.out.println(plant.getLight()+" "+lightText);
-                    //System.out.println(plant.getHigh_temperature()+" "+highTempText);
-                    //System.out.println(plant.getLow_temperature()+" "+lowTempText);
                     if(plant.getLight().equals(lightText)&&plant.getHigh_temperature()>=Double.parseDouble(highTempText)&&plant.getLow_temperature()<=Double.parseDouble(lowTempText))
                         plants.add(plant);
-                    //System.out.println(plants);
                 }
                 if(plants.size()>0){
                     searchAdapter.notifyDataSetChanged();
@@ -92,9 +88,9 @@ public class SearchResults extends AppCompatActivity {
             }
         });
 
+        // Set up bottom navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);
-
         bottomNavigationView.setOnItemSelectedListener(item->{
             if(item.getItemId()==R.id.bottom_home){
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -143,21 +139,11 @@ public class SearchResults extends AppCompatActivity {
             return false;
         });
 
+        // Updating notification to 1 if it;s not done already
         if(MyAdapter.notifsent>0){
             MyAdapter.notifsent=1;
         }
 
     }
 
-    /*@Override
-    protected void onStart(){
-        super.onStart();
-        searchAdapter.startListening();
-    }
-
-    @Override
-    protected void onStop(){
-        super.onStop();
-        searchAdapter.stopListening();
-    }*/
 }

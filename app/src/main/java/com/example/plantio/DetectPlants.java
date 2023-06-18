@@ -41,6 +41,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * The DetectPlants class is used to recognize a plant using pictures and the Machine Learning model trained with plants
+ * from the database.
+ */
 public class DetectPlants extends AppCompatActivity {
 
     RecyclerView recyclerViewer;
@@ -67,6 +71,8 @@ public class DetectPlants extends AppCompatActivity {
         gallery = (Button) findViewById(R.id.gallery);
         recyclerViewer = (RecyclerView) findViewById(R.id.recyclerView);
 
+        // Button listeners for capturing an image or selecting from the gallery
+
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,9 +98,11 @@ public class DetectPlants extends AppCompatActivity {
         });
 
         FirebaseUser currentUser = MainActivity.mFirebaseAuth.getCurrentUser();
+
+        // Set up bottom navigation view
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);
-
         bottomNavigationView.setOnItemSelectedListener(item->{
             if(item.getItemId()==R.id.bottom_home){
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -148,6 +156,7 @@ public class DetectPlants extends AppCompatActivity {
         }
     }
 
+    // Method to classify the image using the machine learning model
     public void classifyImage(Bitmap image) {
         try {
             Model model = Model.newInstance(getApplicationContext());
@@ -193,10 +202,6 @@ public class DetectPlants extends AppCompatActivity {
             String plantName = classes[maxPos];
             result.setText(plantName);
 
-            /* String s = "";
-            for (int i = 0; i < classes.length; i++) {
-                s += String.format("%s: %.1f%%\n", classes[i], confidences[i] * 100);
-            }*/
             classified.setText(String.format("%s %.1f%% %s", "It's more likely (", confidences[maxPos] * 100, ") to be:"));
 
             db = FirebaseDatabase.getInstance().getReference("Plant");
@@ -209,12 +214,8 @@ public class DetectPlants extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                         Plant plant = dataSnapshot.getValue(Plant.class);
-                        System.out.println(plant.getName()+" "+plantName);
-                        //System.out.println(plant.getHigh_temperature()+" "+highTempText);
-                        //System.out.println(plant.getLow_temperature()+" "+lowTempText);
                         if(plant.getName().equals(plantName))
                             plants.add(plant);
-                        //System.out.println(plants);
                     }
                     if(plants.size()>0){
                         searchAdapter.notifyDataSetChanged();
@@ -235,11 +236,12 @@ public class DetectPlants extends AppCompatActivity {
         }
     }
 
-
+    // Method to handle the result of camera or gallery selection
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Handling camera result
             Bitmap image = (Bitmap) data.getExtras().get("data");
             int dimension = Math.min(image.getWidth(), image.getHeight());
             image = ThumbnailUtils.extractThumbnail(image, dimension, dimension);
@@ -248,6 +250,7 @@ public class DetectPlants extends AppCompatActivity {
             image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
             classifyImage(image);
         } else if (requestCode == 3 && resultCode == RESULT_OK && data != null) {
+            // Handling gallery result
             Uri selectedImage = data.getData();
             try {
                 Bitmap image;

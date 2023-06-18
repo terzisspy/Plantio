@@ -15,6 +15,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The Plant class represents each plant.
+ */
 public class Plant implements Parcelable {
     public String name;
     public String light;
@@ -26,6 +29,7 @@ public class Plant implements Parcelable {
     public String image;
     int frequency;
 
+    // Constructors
     public Plant(){
     }
 
@@ -44,6 +48,8 @@ public class Plant implements Parcelable {
         this.image=image;
         this.frequency = frequency;
     }
+
+    // Setters and getters
 
     public void setName(String name) {
         this.name = name;
@@ -110,6 +116,13 @@ public class Plant implements Parcelable {
     }
 
 
+    /**
+     * Constructor for creating a Plant object from a Parcel.
+     * Extracts the data from the Parcel and assigns it to the corresponding fields of the Plant object.
+     *
+     * @param in The Parcel containing the data to be extracted.
+     */
+
     public Plant(Parcel in){
         String[] data = new String[8];
         in.readStringArray(data);
@@ -123,6 +136,13 @@ public class Plant implements Parcelable {
         this.frequency=Integer.parseInt(data[7]);
     }
 
+    /**
+     * Calculates the number of days between the given date (short_description) and today's date.
+     * The date format used is "dd/MM/yyyy".
+     *
+     * @return The number of days between the given date and today's date.
+     */
+
     public int daysInBetween(){
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -130,7 +150,7 @@ public class Plant implements Parcelable {
             // Parse the given date string to Date object
             Date givenDate = sdf.parse(short_description);
 
-            // Get today's date
+            // Get the current date
             Calendar calendarToday = Calendar.getInstance();
             calendarToday.set(Calendar.HOUR_OF_DAY, 0);
             calendarToday.set(Calendar.MINUTE, 0);
@@ -152,6 +172,11 @@ public class Plant implements Parcelable {
         return -1;
     }
 
+    /**
+     * Converts the Plant object to a string representation.
+     *
+     * @return The string representation of the Plant object.
+     */
     @Override
     public String toString(){
         String plantContext;
@@ -163,17 +188,35 @@ public class Plant implements Parcelable {
         return 0;
     }
 
+    /**
+     * Writes the data of the Plant object to a Parcel.
+     *
+     * @param dest  The Parcel to write the data to.
+     * @param flags Additional flags about how the object should be written.
+     */
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeStringArray(new String[]{this.name,this.short_description, this.full_description, String.valueOf(this.low_temperature), String.valueOf(this.high_temperature), this.light, this.image, String.valueOf(this.frequency)});
     }
 
     public static final Parcelable.Creator<Plant> CREATOR=new Parcelable.Creator<Plant>(){
+        /**
+         * Creates a new instance of the Plant class, instantiating it from the given Parcel.
+         *
+         * @param source The Parcel containing the Plant object's data.
+         * @return The created Plant object.
+         */
         @Override
         public Plant createFromParcel(Parcel source){
             return new Plant(source);
         }
 
+        /**
+         * Creates a new array of the Plant class.
+         *
+         * @param size The size of the array.
+         * @return An array of Plant objects with the specified size.
+         */
         @Override
         public Plant[] newArray(int size){
             return new Plant[size];

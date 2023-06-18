@@ -22,6 +22,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+
+/**
+ * The AccountActivity class represents the activity that displays the user account information.
+ */
+
 public class AccountActivity extends AppCompatActivity {
     private TextView mailText;
     private Button logoutButton,addButton;
@@ -31,17 +36,30 @@ public class AccountActivity extends AppCompatActivity {
     DatabaseReference db;
     MyAdapter myAdapter;
     ArrayList<Plant> plants;
+
+    /**
+     * Called when the activity is created. Initializes the UI components and sets up event listeners.
+     * @param savedInstanceState The saved instance state bundle.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Initialize UI components
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-
         mailText = (TextView) findViewById(R.id.mailText);
         logoutButton = (Button) findViewById(R.id.logout_button);
         addButton = (Button) findViewById(R.id.add_button);
+
+        // Set up RecyclerView
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Initialize Firebase components
         mFirebaseAuth = FirebaseAuth.getInstance();
+
+        // Set up bottom navigation view
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_account);
         bottomNavigationView.setOnItemSelectedListener(item->{
@@ -79,6 +97,7 @@ public class AccountActivity extends AppCompatActivity {
 
         });
 
+        // Set up event listeners
         addButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), AddPlantActivity.class));
@@ -86,6 +105,8 @@ public class AccountActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        // Retrieve plant data from Firebase
         String userId = mFirebaseAuth.getCurrentUser().getUid();
         db = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("plants");
         FirebaseUser currentUser = MainActivity.mFirebaseAuth.getCurrentUser();
@@ -120,6 +141,10 @@ public class AccountActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Called when the activity is starting or resuming. Displays the user account information.
+     */
     @Override
     protected void onStart(){
         super.onStart();
@@ -135,6 +160,10 @@ public class AccountActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Logs out the current user and redirects to the login activity.
+     * @param view The view that was clicked.
+     */
     public void logout(View view){
         MainActivity.mFirebaseAuth.signOut();
         startActivity(new Intent(getApplicationContext(), LogInActivity.class));

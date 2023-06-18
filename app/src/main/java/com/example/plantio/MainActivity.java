@@ -33,28 +33,20 @@ public class MainActivity extends AppCompatActivity {
     SearchAdapter searchAdapter;
 
     public static FirebaseAuth mFirebaseAuth;
-    private FirebaseUser currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        FirebaseUser currentUser;
         recyclerView = (RecyclerView)findViewById(R.id.recyclerViewer);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // Initialize Firebase Authentication
 
-        /*FirebaseRecyclerOptions<Plant> options =
-                new FirebaseRecyclerOptions.Builder<Plant>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Plant"), Plant.class)
-                        .build();*/
-
-        //myAdapter = new MyAdapter(options);
-        //recyclerView.setAdapter(myAdapter);
         mFirebaseAuth = FirebaseAuth.getInstance();
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_home);
         currentUser = mFirebaseAuth.getCurrentUser();
 
+        // Retrieve Firebase Cloud Messaging (FCM) registration token
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
@@ -69,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
                 });
 
 
+        // Retrieve plants from the database
 
         db = FirebaseDatabase.getInstance().getReference("Plant");
-        FirebaseUser currentUser = MainActivity.mFirebaseAuth.getCurrentUser();
         plants = new ArrayList<>();
         searchAdapter = new SearchAdapter(this,plants);
         recyclerView.setAdapter(searchAdapter);
@@ -94,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Set up click listener for bottom navigation view
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_home);
         bottomNavigationView.setOnItemSelectedListener(item->{
                 if(item.getItemId()==R.id.bottom_home){
                     return true;
@@ -122,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 else if(item.getItemId()==R.id.bottom_account) {
+                    // Changing the state of notifications for user to 1 so its only sent once
                     if(MyAdapter.notifsent>0){
                         MyAdapter.notifsent=1;
                     }
@@ -140,21 +137,4 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
     }
-
-    /*@Override
-    protected void onStart(){
-        super.onStart();
-        myAdapter.startListening();
-        if(mFirebaseAuth!=null)
-            loggedin=1;
-        else{
-            loggedin=0;
-        }
-    }
-
-    @Override
-    protected void onStop(){
-        super.onStop();
-        myAdapter.stopListening();
-    }*/
 }

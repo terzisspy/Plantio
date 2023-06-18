@@ -20,12 +20,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * The FindPlantsActivity class is used so user can search plants
+ */
 public class FindPlantsActivity extends AppCompatActivity {
     private TextView lightText,lowTemp,highTemp,TempIns,LightIns;
     private EditText highTempInput,lowTempInput;
 
     private SeekBar lightBar;
-    private ImageView darknessimageView;
+    private ImageView darknessimageView,houseimageView;
 
     Context context;
     private Button searchButton,detectButton;
@@ -33,8 +36,36 @@ public class FindPlantsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Initialize UI components
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_plants);
+        lightText = (TextView) findViewById(R.id.textView5);
+        lowTemp = (TextView) findViewById(R.id.textView);
+        highTemp = (TextView) findViewById(R.id.textView2);
+        TempIns = (TextView) findViewById(R.id.textView4);
+        LightIns = (TextView) findViewById(R.id.textView3);
+        lowTempInput = (EditText) findViewById(R.id.editTextLowTemp);
+        highTempInput = (EditText) findViewById(R.id.editTextHighTemp);
+        lowTemp.setText(R.string.lowtemperature);
+        highTemp.setText(R.string.hightemperature);
+        TempIns.setText(R.string.temperature);
+        LightIns.setText(R.string.instructions);
+        context = this;
+
+        lightBar = (SeekBar) findViewById(R.id.seekBarLight);
+        darknessimageView = (ImageView) findViewById(R.id.darknessimageView);
+        houseimageView = (ImageView) findViewById(R.id.imageView);
+        darknessimageView.setImageAlpha(0);
+        searchButton = (Button) findViewById(R.id.searchButton);
+        searchButton.setText(getString(R.string.searchButtonText));
+        detectButton = (Button) findViewById(R.id.detectButton);
+        detectButton.setText(getString(R.string.detectButtonText));
+        lightBar.setProgress(100);
+        lightText.setText("100%");
+
+        // Set up bottom navigation view
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);
         FirebaseUser currentUser = MainActivity.mFirebaseAuth.getCurrentUser();
@@ -83,36 +114,17 @@ public class FindPlantsActivity extends AppCompatActivity {
             }
             return false;
         });
-        lightText = (TextView) findViewById(R.id.textView5);
-        lowTemp = (TextView) findViewById(R.id.textView);
-        highTemp = (TextView) findViewById(R.id.textView2);
-        TempIns = (TextView) findViewById(R.id.textView4);
-        LightIns = (TextView) findViewById(R.id.textView3);
-        lowTempInput = (EditText) findViewById(R.id.editTextLowTemp);
-        highTempInput = (EditText) findViewById(R.id.editTextHighTemp);
-        lowTemp.setText(R.string.lowtemperature);
-        highTemp.setText(R.string.hightemperature);
-        TempIns.setText(R.string.temperature);
-        LightIns.setText(R.string.instructions);
-        context = this;
 
-        lightBar = (SeekBar) findViewById(R.id.seekBarLight);
-        darknessimageView = (ImageView) findViewById(R.id.darknessimageView);
-        darknessimageView.setImageAlpha(0);
-        searchButton = (Button) findViewById(R.id.searchButton);
-        searchButton.setText(getString(R.string.searchButtonText));
-        detectButton = (Button) findViewById(R.id.detectButton);
-        detectButton.setText(getString(R.string.detectButtonText));
-        lightBar.setProgress(100);
-        lightText.setText("100%");
+        // Button listeners for the seek bar of light and for the 2 buttons
         lightBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 lightText.setText("" + progress +"%");
                 int alpha = 100-progress;
-                Double newalpha = alpha*2.5;
+                Double newalpha = progress*2.5;
                 int normalpha = Integer.valueOf(newalpha.intValue());
-                darknessimageView.setImageAlpha(normalpha);
+                //darknessimageView.setImageAlpha(normalpha);
+                houseimageView.setImageAlpha(Integer.valueOf(newalpha.intValue()));
             }
 
             @Override
@@ -135,6 +147,9 @@ public class FindPlantsActivity extends AppCompatActivity {
                 else{
                     light="High";
                 }
+
+                //checking if there is valid input
+
                 if(!(lowTempInput.getText().toString().isEmpty()&&highTempInput.getText().toString().isEmpty())) {
                     String LowTemp = String.valueOf((lowTempInput.getText()));
                     String HighTemp = String.valueOf((highTempInput.getText()));
