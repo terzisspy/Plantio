@@ -44,11 +44,10 @@
 
         <TextView
             android:id="@+id/nametext"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
             android:layout_below="@+id/img1"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="250dp"
             android:layout_marginTop="19dp"
             android:text="Plant Name"
             android:textColor="#000000"
@@ -58,11 +57,11 @@
 
         <TextView
             android:id="@+id/shortdescriptiontext"
-            android:layout_width="fill_parent"
-            android:layout_height="52dp"
+            android:layout_width="289dp"
+            android:layout_height="188dp"
             android:layout_below="@+id/nametext"
-            android:layout_marginLeft="-273dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="-228dp"
+            android:layout_marginTop="-55dp"
             android:layout_toRightOf="@id/img1"
             android:text="Short Description"
             android:textAlignment="center"

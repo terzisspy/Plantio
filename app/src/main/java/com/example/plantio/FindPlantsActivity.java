@@ -28,7 +28,7 @@ public class FindPlantsActivity extends AppCompatActivity {
     private EditText highTempInput,lowTempInput;
 
     private SeekBar lightBar;
-    private ImageView darknessimageView,houseimageView;
+    private ImageView houseimageView;
 
     Context context;
     private Button searchButton,detectButton;
@@ -54,9 +54,7 @@ public class FindPlantsActivity extends AppCompatActivity {
         context = this;
 
         lightBar = (SeekBar) findViewById(R.id.seekBarLight);
-        darknessimageView = (ImageView) findViewById(R.id.darknessimageView);
         houseimageView = (ImageView) findViewById(R.id.imageView);
-        darknessimageView.setImageAlpha(0);
         searchButton = (Button) findViewById(R.id.searchButton);
         searchButton.setText(getString(R.string.searchButtonText));
         detectButton = (Button) findViewById(R.id.detectButton);
@@ -120,10 +118,7 @@ public class FindPlantsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 lightText.setText("" + progress +"%");
-                int alpha = 100-progress;
                 Double newalpha = progress*2.5;
-                int normalpha = Integer.valueOf(newalpha.intValue());
-                //darknessimageView.setImageAlpha(normalpha);
                 houseimageView.setImageAlpha(Integer.valueOf(newalpha.intValue()));
             }
 

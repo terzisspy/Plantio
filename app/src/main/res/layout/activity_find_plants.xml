@@ -132,19 +132,4 @@
         app:layout_constraintStart_toEndOf="@+id/searchButton"
         app:layout_constraintTop_toBottomOf="@+id/editTextHighTemp" />
 
-
-    <ImageView
-        android:id="@+id/darknessimageView"
-        android:layout_width="275dp"
-        android:layout_height="525dp"
-        android:layout_marginTop="-140dp"
-        android:alpha="1"
-        android:rotation="90"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/blackcolour" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
